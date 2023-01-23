@@ -1,5 +1,5 @@
 ---
-title: 10x your code with the facade pattern, currying, and closures
+title: Facade pattern, currying, and closures
 date: 2020-02-18
 ---
 
