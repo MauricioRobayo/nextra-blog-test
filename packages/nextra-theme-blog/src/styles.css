@@ -30,9 +30,3 @@ h1 {
     @apply nx-font-normal;
   }
 }
-
-.post-item {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-}

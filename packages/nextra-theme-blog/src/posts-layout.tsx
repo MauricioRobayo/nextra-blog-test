@@ -25,12 +25,12 @@ export const PostsLayout = ({ children }: { children: ReactNode }) => {
     }
 
     const postTitle = post.frontMatter?.title || post.name
-    const date = post.frontMatter?.date && new Date(post.frontMatter.date)
+    const date: Date = post.frontMatter?.date && new Date(post.frontMatter.date)
     const description = post.frontMatter?.description
 
     return (
-      <div key={post.route} className="post-item">
-        <h3>
+      <div key={post.route} className="nx-flex nx-items-baseline nx-gap-4">
+        <h3 className="nx-flex-1 !nx-mt-0 !nx-mb-1">
           <Link href={post.route} passHref legacyBehavior>
             <a className="!nx-no-underline">{postTitle}</a>
           </Link>
@@ -46,8 +46,13 @@ export const PostsLayout = ({ children }: { children: ReactNode }) => {
           </p>
         )}
         {date && (
-          <time className="nx-text-sm nx-text-gray-300" dateTime={date.toISOString()}>
-            {date.toDateString()}
+          <time
+            className="nx-text-sm nx-text-gray-300"
+            dateTime={date.toISOString()}
+          >
+            {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(
+              date
+            )}
           </time>
         )}
       </div>
