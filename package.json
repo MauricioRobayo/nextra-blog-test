@@ -1,32 +1,52 @@
 {
-  "name": "mauriciorobayo.github.io",
   "private": true,
-  "main": "index.js",
-  "license": "MIT",
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start",
-    "debug": "NODE_OPTIONS='--inspect' next dev"
+    "build": "turbo run build:tailwind build --filter=./packages/\\*",
+    "types:check": "turbo run types:check",
+    "lint": "eslint --cache --ignore-path .gitignore --max-warnings 0 .",
+    "dev:theme-blog": "turbo run dev --filter=example-blog...",
+    "build:theme-blog": "pnpm run build --filter=nextra-theme-blog",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "format": "turbo run format"
   },
-  "dependencies": {
-    "next": "^13.1.4",
-    "nextra": "^2.2.9",
-    "nextra-theme-blog": "^2.2.9",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "dependenciesMeta": {
-    "nextra": {
-      "injected": true
-    },
-    "nextra-theme-blog": {
-      "injected": true
-    }
-  },
-  "version": null,
   "devDependencies": {
-    "@types/node": "18.11.18",
+    "@edge-runtime/vm": "2.0.3",
+    "@next/eslint-plugin-next": "13.1.4",
+    "@typescript-eslint/eslint-plugin": "5.48.2",
+    "@typescript-eslint/parser": "5.48.2",
+    "eslint": "8.32.0",
+    "eslint-plugin-react": "7.32.1",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-tailwindcss": "3.8.0",
+    "eslint-plugin-typescript-sort-keys": "2.1.0",
+    "prettier": "2.8.3",
+    "prettier-plugin-tailwindcss": "0.2.1",
+    "rimraf": "4.1.1",
+    "tsup": "6.5.0",
+    "turbo": "1.6.3",
     "typescript": "4.9.4"
+  },
+  "packageManager": "pnpm@7.25.1",
+  "pnpm": {
+    "overrides": {
+      "vitest": "^0.27.1",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "@mdx-js/react": "^2.2.1",
+      "next-themes": "^0.2.1",
+      "next": "^13.1.1",
+      "@types/react": "^18.0.15",
+      "@types/react-dom": "^18.0.6",
+      "postcss": "^8.4.21",
+      "postcss-cli": "^10.1.0",
+      "autoprefixer": "^10.4.13",
+      "tailwindcss": "^3.2.4",
+      "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
+      "@tailwindcss/typography": "^0.5.8",
+      "tsup": "^6.5.0",
+      "concurrently": "^7.3.0",
+      "postcss-import": "^14.1.0"
+    }
   }
 }
