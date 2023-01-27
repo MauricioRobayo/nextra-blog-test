@@ -6,6 +6,7 @@
     "lint": "eslint --cache --ignore-path .gitignore --max-warnings 0 .",
     "dev:theme-blog": "turbo run dev --filter=example-blog...",
     "build:theme-blog": "pnpm run build --filter=nextra-theme-blog",
+    "build:all": "turbo run build:tailwind build",
     "test": "turbo run test",
     "clean": "turbo run clean",
     "format": "turbo run format"
