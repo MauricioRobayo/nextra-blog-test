@@ -12,22 +12,22 @@ We won't worry about error handling or edge cases as this is going to be just an
 Let's assume we are going to build a Weather App and we want to fetch the data from the [Open Weather API](https://openweathermap.org/api). We might use something like this in our code:
 
 ```js
-const fetchWeather = async (city) => {
-  const endpoint = "https://api.openweathermap.org/data/2.5/weather";
-  const querystring = `q=${city}&appid=${WEATHER_API_KEY}`;
-  const response = await fetch(`${endpoint}?${querystring}`);
+const fetchWeather = async city => {
+  const endpoint = 'https://api.openweathermap.org/data/2.5/weather'
+  const querystring = `q=${city}&appid=${WEATHER_API_KEY}`
+  const response = await fetch(`${endpoint}?${querystring}`)
   if (!response.ok) {
-    throw new Error(`${response.statusText} (${response.status})`);
+    throw new Error(`${response.statusText} (${response.status})`)
   }
-  return response.json();
-};
+  return response.json()
+}
 
 const init = async () => {
-  const weatherData = await fetchWeather("barranquilla");
-  console.log(weatherData);
-};
+  const weatherData = await fetchWeather('barranquilla')
+  console.log(weatherData)
+}
 
-init();
+init()
 ```
 
 ## The Facade Pattern
@@ -36,33 +36,33 @@ This looks fine so far. But now let's say that we want to get the city based on 
 
 ```js
 const fetchIpinfo = async () => {
-  const endpoint = "https://ipinfo.io";
-  const querystring = `token=${IPINFO_TOKEN}`;
-  const response = await fetch(`${endpoint}?${querystring}`);
+  const endpoint = 'https://ipinfo.io'
+  const querystring = `token=${IPINFO_TOKEN}`
+  const response = await fetch(`${endpoint}?${querystring}`)
   if (!response.ok) {
-    throw new Error(`${response.statusText} (${response.status})`);
+    throw new Error(`${response.statusText} (${response.status})`)
   }
-  return response.json();
-};
+  return response.json()
+}
 
-const fetchWeather = async (city) => {
-  const endpoint = "https://api.openweathermap.org/data/2.5/weather";
-  const querystring = `q=${city}&appid=${WEATHER_API_KEY}`;
-  const response = await fetch(`${endpoint}?${querystring}`);
+const fetchWeather = async city => {
+  const endpoint = 'https://api.openweathermap.org/data/2.5/weather'
+  const querystring = `q=${city}&appid=${WEATHER_API_KEY}`
+  const response = await fetch(`${endpoint}?${querystring}`)
   if (!response.ok) {
-    throw new Error(`${response.statusText} (${response.status})`);
+    throw new Error(`${response.statusText} (${response.status})`)
   }
-  const json = response.json();
-  return json;
-};
+  const json = response.json()
+  return json
+}
 
 const init = async () => {
-  const { city, country } = await fetchIpinfo();
-  const weatherData = await fetchWeather(`${city}, ${country}`);
-  console.log(weatherData);
-};
+  const { city, country } = await fetchIpinfo()
+  const weatherData = await fetchWeather(`${city}, ${country}`)
+  console.log(weatherData)
+}
 
-init();
+init()
 ```
 
 By now you should have noticed that there is a big issue here: we are repeating ourselves while using the `fetch` web API. It is almost the same code on both the `fetchWeather` and the `fetchIpinfo` functions.
@@ -71,33 +71,33 @@ We know how to solve this. Let's refactor by moving the duplicate code into its 
 
 ```js
 const fetchData = async (endpoint, querystring) => {
-  const response = await fetch(`${endpoint}?${querystring}`);
+  const response = await fetch(`${endpoint}?${querystring}`)
   if (!response.ok) {
-    throw new Error(`${response.statusText} (${response.status})`);
+    throw new Error(`${response.statusText} (${response.status})`)
   }
-  const json = await response.json();
-  return json;
-};
+  const json = await response.json()
+  return json
+}
 
-const fetchWeather = async (city) => {
-  const endpoint = "https://api.openweathermap.org/data/2.5/weather";
-  const querystring = `q=${city}&appid=${WEATHER_API_KEY}`;
-  return fetchData(endpoint, querystring);
-};
+const fetchWeather = async city => {
+  const endpoint = 'https://api.openweathermap.org/data/2.5/weather'
+  const querystring = `q=${city}&appid=${WEATHER_API_KEY}`
+  return fetchData(endpoint, querystring)
+}
 
 const fetchIpinfo = async () => {
-  const endpoint = "https://ipinfo.io";
-  const querystring = `token=${IPINFO_TOKEN}`;
-  return fetchData(endpoint, querystring);
-};
+  const endpoint = 'https://ipinfo.io'
+  const querystring = `token=${IPINFO_TOKEN}`
+  return fetchData(endpoint, querystring)
+}
 
 const init = async () => {
-  const { city, country } = await fetchIpinfo();
-  const weatherData = await fetchWeather(`${city}, ${country}`);
-  console.log(weatherData);
-};
+  const { city, country } = await fetchIpinfo()
+  const weatherData = await fetchWeather(`${city}, ${country}`)
+  console.log(weatherData)
+}
 
-init();
+init()
 ```
 
 There we go. Basically, we are providing a simplified interface to the `fetch` web API, and we have successfully implemented the [facade pattern](http://jargon.js.org/_glossary/FACADE_PATTERN.md) to improve our code. That's all there is to it, we are mastering OOP design patterns 😄.
@@ -109,28 +109,28 @@ But still, something doesn't seem right with the code. The `fetchWeather` and th
 We can remove the first argument of our `fetchData` function and make it return a new function based on that, so we can create as many `fetch*` functions as we need based on the endpoint provided:
 
 ```js
-const fetchData = (endpoint) => async (querystring) => {
-  const response = await fetch(`${endpoint}?${querystring}`);
+const fetchData = endpoint => async querystring => {
+  const response = await fetch(`${endpoint}?${querystring}`)
   if (!response.ok) {
-    throw new Error(`${response.statusText} (${response.status})`);
+    throw new Error(`${response.statusText} (${response.status})`)
   }
-  return response.json();
-};
+  return response.json()
+}
 
 const init = async () => {
-  const fetchIpinfo = fetchData("https://ipinfo.io");
+  const fetchIpinfo = fetchData('https://ipinfo.io')
   const fetchWeather = fetchData(
-    "https://api.openweathermap.org/data/2.5/weather"
-  );
+    'https://api.openweathermap.org/data/2.5/weather'
+  )
 
-  const { city, country } = await fetchIpinfo(`token=${IPINFO_TOKEN}`);
+  const { city, country } = await fetchIpinfo(`token=${IPINFO_TOKEN}`)
   const weatherData = await fetchWeather(
     `q=${city}, ${country}&appid=${WEATHER_API_KEY}`
-  );
-  console.log(weatherData);
-};
+  )
+  console.log(weatherData)
+}
 
-init();
+init()
 ```
 
 Dam! That code is looking sexy! We have successfully removed a lot of the duplicate code using the [facade pattern](http://jargon.js.org/_glossary/FACADE_PATTERN.md), and we are reducing the [arity](https://en.wikipedia.org/wiki/Arity) of our `fetchData` function by [currying](https://javascript.info/currying-partials) it and making it return a new function depending on the `endpoint` that we are going to use.
@@ -153,52 +153,52 @@ To do that, we can take advantage of the closure we have created when [currying]
 
 ```js
 const fromCache = (key, cacheInMinutes) => {
-  const cacheInMilliseconds = cacheInMinutes * 60 * 1000;
+  const cacheInMilliseconds = cacheInMinutes * 60 * 1000
   if (localStorage[key] !== undefined) {
-    const cache = JSON.parse(localStorage[key]);
+    const cache = JSON.parse(localStorage[key])
     if (Date.now() - cache.datetime < cacheInMilliseconds) {
-      return { ...cache.data, cache: cache.datetime + cacheInMilliseconds };
+      return { ...cache.data, cache: cache.datetime + cacheInMilliseconds }
     }
-    localStorage.removeItem(key);
+    localStorage.removeItem(key)
   }
-  return false;
-};
+  return false
+}
 
 const fetchData =
   ({ endpoint, cacheInMinutes }) =>
-  async (querystring) => {
-    const url = `${endpoint}?${querystring}`;
-    const cache = fromCache(url, cacheInMinutes);
+  async querystring => {
+    const url = `${endpoint}?${querystring}`
+    const cache = fromCache(url, cacheInMinutes)
     if (cache) {
-      return cache;
+      return cache
     }
-    const response = await fetch(url);
+    const response = await fetch(url)
     if (!response.ok) {
-      throw new Error(`${response.statusText} (${response.status})`);
+      throw new Error(`${response.statusText} (${response.status})`)
     }
-    const data = await response.json();
-    localStorage[url] = JSON.stringify({ datetime: Date.now(), data });
-    return { ...data, cache: false };
-  };
+    const data = await response.json()
+    localStorage[url] = JSON.stringify({ datetime: Date.now(), data })
+    return { ...data, cache: false }
+  }
 
 const init = async () => {
   const fetchIpinfo = fetchData({
-    endpoint: "https://ipinfo.io",
-    cacheInMinutes: 30,
-  });
+    endpoint: 'https://ipinfo.io',
+    cacheInMinutes: 30
+  })
   const fetchWeather = fetchData({
-    endpoint: "https://api.openweathermap.org/data/2.5/weather",
-    cacheInMinutes: 10,
-  });
+    endpoint: 'https://api.openweathermap.org/data/2.5/weather',
+    cacheInMinutes: 10
+  })
 
-  const { city, country } = await fetchIpinfo(`token=${IPINFO_TOKEN}`);
+  const { city, country } = await fetchIpinfo(`token=${IPINFO_TOKEN}`)
   const weatherData = await fetchWeather(
     `q=${city}, ${country}&appid=${WEATHER_API_KEY}`
-  );
-  console.log(weatherData);
-};
+  )
+  console.log(weatherData)
+}
 
-init();
+init()
 ```
 
 Take a look at that `init` function, isn't it expressive? We have written some clean and maintainable code using the [facade pattern](http://jargon.js.org/_glossary/FACADE_PATTERN.md), [currying](https://javascript.info/currying-partials), and [closures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures). Now we can create as many `fetch*` functions as we want and we can give an expiration time in minutes for the `localStorage` cache for each of those functions.
