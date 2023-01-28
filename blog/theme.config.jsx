@@ -37,5 +37,7 @@ export default {
         }
       `}</style>
     </small>
-  )
+  ),
+  title: 'Mauricio Robayo',
+  titleSuffix: ' - Mauricio Robayo'
 }

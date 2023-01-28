@@ -27,6 +27,7 @@ export interface NextraBlogTheme {
   postFooter?: string
   readMore?: string
   titleSuffix?: string
+  title?: string
 }
 
 export type BlogPageOpts = PageOpts<BlogFrontMatter>
