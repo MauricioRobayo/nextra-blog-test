@@ -89,11 +89,7 @@ module.exports = {
         // 'plugin:@typescript-eslint/recommended-requiring-type-checking'
       ],
       parserOptions: {
-        project: [
-          'packages/*/tsconfig.json',
-          'tsconfig.json',
-          'tsconfig.eslint.json'
-        ]
+        project: ['tsconfig.json', 'tsconfig.eslint.json']
       },
       rules: {
         '@typescript-eslint/no-unnecessary-type-assertion': 'error',
@@ -109,6 +105,10 @@ module.exports = {
           config: 'packages/nextra-theme-blog/tailwind.config.js',
           whitelist: ['subheading-', 'post-item', 'post-item-more']
         }
+      },
+      rules: {
+        // disable rule because we don't have pagesDir in above folders
+        '@next/next/no-html-link-for-pages': 'off'
       }
     },
     // ⚙️ blog example
@@ -129,13 +129,6 @@ module.exports = {
       ],
       env: {
         node: true
-      }
-    },
-    {
-      files: 'packages/nextra-theme-blog/**',
-      rules: {
-        // disable rule because we don't have pagesDir in above folders
-        '@next/next/no-html-link-for-pages': 'off'
       }
     },
     {
