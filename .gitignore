@@ -16,3 +16,4 @@ packages/nextra-theme-*/style.css
 .idea/
 .eslintcache
 .env
+.turbo
