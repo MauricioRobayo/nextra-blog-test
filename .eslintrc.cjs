@@ -89,38 +89,11 @@ module.exports = {
         // 'plugin:@typescript-eslint/recommended-requiring-type-checking'
       ],
       parserOptions: {
-        project: [
-          'packages/*/tsconfig.json',
-          'docs/tsconfig.json',
-          'tsconfig.eslint.json'
-        ]
+        project: ['packages/*/tsconfig.json', 'tsconfig.eslint.json']
       },
       rules: {
         '@typescript-eslint/no-unnecessary-type-assertion': 'error',
         '@typescript-eslint/consistent-type-imports': 'error'
-      }
-    },
-    // ⚙️ nextra-theme-docs
-    {
-      ...TAILWIND_CONFIG,
-      files: 'packages/nextra-theme-docs/**',
-      plugins: ['typescript-sort-keys'],
-      settings: {
-        tailwindcss: {
-          config: 'packages/nextra-theme-docs/tailwind.config.js',
-          callees: ['cn'],
-          whitelist: ['nextra-breadcrumb', 'nextra-callout', 'nextra-bleed']
-        }
-      },
-      rules: {
-        ...TAILWIND_CONFIG.rules,
-        'no-restricted-imports': [
-          'error',
-          {
-            name: 'next/link',
-            message: 'Use local <Anchor /> instead'
-          }
-        ]
       }
     },
     // ⚙️ nextra-theme-blog
@@ -134,53 +107,11 @@ module.exports = {
         }
       }
     },
-    // ⚙️ nextra
-    {
-      ...TAILWIND_CONFIG,
-      files: 'packages/nextra/**',
-      settings: {
-        tailwindcss: {
-          config: 'packages/nextra-theme-docs/tailwind.config.js',
-          whitelist: ['nextra-code-block']
-        }
-      }
-    },
-    // ⚙️ Docs
-    {
-      ...TAILWIND_CONFIG,
-      files: 'docs/**',
-      settings: {
-        tailwindcss: {
-          config: 'docs/tailwind.config.js',
-          callees: ['cn'],
-          whitelist: ['dash-ring', 'theme-1', 'theme-2', 'theme-3', 'theme-4']
-        },
-        next: { rootDir: 'docs' }
-      }
-    },
-    // ⚙️ SWR-site example
-    {
-      ...TAILWIND_CONFIG,
-      files: 'examples/swr-site/**',
-      settings: {
-        tailwindcss: {
-          config: 'examples/swr-site/tailwind.config.js'
-        },
-        next: { rootDir: 'examples/swr-site' }
-      }
-    },
     // ⚙️ blog example
     {
       files: 'examples/blog/**',
       settings: {
         next: { rootDir: 'examples/blog' }
-      }
-    },
-    // ⚙️ docs example
-    {
-      files: 'examples/docs/**',
-      settings: {
-        next: { rootDir: 'examples/docs' }
       }
     },
     {
