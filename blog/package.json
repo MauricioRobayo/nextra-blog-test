@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "next": ">=13",
+    "nextjs-google-analytics": "^2.3.0",
     "nextra": "^2.2.14",
     "nextra-theme-blog": "workspace:*",
     "react": "*",
