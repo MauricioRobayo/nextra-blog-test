@@ -89,7 +89,11 @@ module.exports = {
         // 'plugin:@typescript-eslint/recommended-requiring-type-checking'
       ],
       parserOptions: {
-        project: ['packages/*/tsconfig.json', 'tsconfig.eslint.json']
+        project: [
+          'packages/*/tsconfig.json',
+          'tsconfig.json',
+          'tsconfig.eslint.json'
+        ]
       },
       rules: {
         '@typescript-eslint/no-unnecessary-type-assertion': 'error',
@@ -109,9 +113,10 @@ module.exports = {
     },
     // ⚙️ blog example
     {
-      files: 'examples/blog/**',
+      files: 'blog/**',
+      extends: 'plugin:@next/next/recommended',
       settings: {
-        next: { rootDir: 'examples/blog' }
+        next: { rootDir: 'blog' }
       }
     },
     {
@@ -127,26 +132,10 @@ module.exports = {
       }
     },
     {
-      files: 'packages/{nextra,nextra-theme-docs,nextra-theme-blog}/**',
+      files: 'packages/nextra-theme-blog/**',
       rules: {
         // disable rule because we don't have pagesDir in above folders
         '@next/next/no-html-link-for-pages': 'off'
-      }
-    },
-    {
-      files: 'packages/nextra/src/**',
-      rules: {
-        'no-restricted-imports': [
-          'error',
-          {
-            patterns: [
-              {
-                group: ['fs', 'node:fs'],
-                message: 'Use `graceful-fs` instead'
-              }
-            ]
-          }
-        ]
       }
     },
     {
