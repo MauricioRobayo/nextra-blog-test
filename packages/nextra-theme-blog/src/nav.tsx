@@ -8,8 +8,15 @@ export default function Nav(): ReactElement {
   const { opts, config } = useBlogContext()
   const { navPages } = collectPostsAndNavs({ opts, config })
   return (
-    <div className="nx-mb-8 nx-flex nx-items-center nx-gap-3">
-      <div className="nx-flex nx-grow nx-flex-wrap nx-items-center nx-gap-3">
+    <div className="nx-mb-8 nx-flex nx-items-baseline nx-justify-between">
+      {config.title && (
+        <h2 className="!nx-mt-0 !nx-text-base">
+          <Link href="/" className="!nx-no-underline !nx-text-gray-400">
+            {config.title}
+          </Link>
+        </h2>
+      )}
+      <div className="nx-flex nx-flex-wrap nx-items-center nx-gap-3">
         {navPages.map(page => {
           if (page.active) {
             return (

@@ -1,13 +1,12 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import type { ReactNode } from 'react'
-import { useBlogContext } from './blog-context'
 import { BasicLayout } from './basic-layout'
+import { useBlogContext } from './blog-context'
 import { MDXTheme } from './mdx-theme'
 import Nav from './nav'
 import { collectPostsAndNavs } from './utils/collect'
 import getTags from './utils/get-tags'
-import { dateFormatter } from './utils/date'
 
 export const PostsLayout = ({ children }: { children: ReactNode }) => {
   const { config, opts } = useBlogContext()
@@ -26,12 +25,11 @@ export const PostsLayout = ({ children }: { children: ReactNode }) => {
     }
 
     const postTitle = post.frontMatter?.title || post.name
-    const date: Date = post.frontMatter?.date && new Date(post.frontMatter.date)
     const description = post.frontMatter?.description
 
     return (
       <div key={post.route} className="nx-flex nx-items-baseline nx-gap-4">
-        <h3 className="!nx-mt-0 !nx-mb-1">
+        <h3 className="!nx-mt-0 !nx-mb-1 nx-truncate">
           <Link href={post.route} className="!nx-no-underline">
             {postTitle}
           </Link>
@@ -45,14 +43,6 @@ export const PostsLayout = ({ children }: { children: ReactNode }) => {
               </Link>
             )}
           </p>
-        )}
-        {date && (
-          <time
-            className="nx-text-sm nx-text-gray-300"
-            dateTime={date.toISOString()}
-          >
-            {dateFormatter.format(date)}
-          </time>
         )}
       </div>
     )
