@@ -7,6 +7,7 @@ import { MDXTheme } from './mdx-theme'
 import Nav from './nav'
 import { collectPostsAndNavs } from './utils/collect'
 import getTags from './utils/get-tags'
+import { dateFormatter } from './utils/date'
 
 export const PostsLayout = ({ children }: { children: ReactNode }) => {
   const { config, opts } = useBlogContext()
@@ -30,17 +31,17 @@ export const PostsLayout = ({ children }: { children: ReactNode }) => {
 
     return (
       <div key={post.route} className="nx-flex nx-items-baseline nx-gap-4">
-        <h3 className="nx-flex-1 !nx-mt-0 !nx-mb-1">
-          <Link href={post.route} passHref legacyBehavior>
-            <a className="!nx-no-underline">{postTitle}</a>
+        <h3 className="!nx-mt-0 !nx-mb-1">
+          <Link href={post.route} className="!nx-no-underline">
+            {postTitle}
           </Link>
         </h3>
         {description && (
           <p className="nx-mb-2 nx-text-gray-400">
             {description}
             {config.readMore && (
-              <Link href={post.route} passHref legacyBehavior>
-                <a className="post-item-more nx-ml-2">{config.readMore}</a>
+              <Link href={post.route} className="post-item-more nx-ml-2">
+                {config.readMore}
               </Link>
             )}
           </p>
@@ -50,9 +51,7 @@ export const PostsLayout = ({ children }: { children: ReactNode }) => {
             className="nx-text-sm nx-text-gray-300"
             dateTime={date.toISOString()}
           >
-            {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(
-              date
-            )}
+            {dateFormatter.format(date)}
           </time>
         )}
       </div>

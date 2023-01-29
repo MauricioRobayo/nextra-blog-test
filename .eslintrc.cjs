@@ -89,7 +89,7 @@ module.exports = {
         // 'plugin:@typescript-eslint/recommended-requiring-type-checking'
       ],
       parserOptions: {
-        project: ['tsconfig.json', 'tsconfig.eslint.json']
+        project: ['packages/*/tsconfig.json', 'tsconfig.eslint.json']
       },
       rules: {
         '@typescript-eslint/no-unnecessary-type-assertion': 'error',
@@ -117,6 +117,9 @@ module.exports = {
       extends: 'plugin:@next/next/recommended',
       settings: {
         next: { rootDir: 'blog' }
+      },
+      parserOptions: {
+        project: ['tsconfig.json']
       }
     },
     {

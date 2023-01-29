@@ -4,6 +4,7 @@ import ThemeSwitch from './theme-switch'
 import { split } from './utils/get-tags'
 import { useBlogContext } from './blog-context'
 import { getParent } from './utils/parent'
+import { dateFormatter } from './utils/date'
 
 export default function Meta(): ReactElement {
   const { opts, config } = useBlogContext()
@@ -50,7 +51,7 @@ export default function Meta(): ReactElement {
           {author && date && ','}
           {date && (
             <time dateTime={new Date(date).toISOString()}>
-              {new Date(date).toDateString()}
+              {dateFormatter.format(new Date(date))}
             </time>
           )}
           {(author || date) && (readingTime || tags.length > 0) && (

@@ -4,8 +4,7 @@ const withNextra = nextra({
   theme: 'nextra-theme-blog',
   themeConfig: './theme.config.jsx',
   staticImage: true,
-  defaultShowCopyCode: true,
-  readingTime: true
+  defaultShowCopyCode: true
 })
 
 export default withNextra({
